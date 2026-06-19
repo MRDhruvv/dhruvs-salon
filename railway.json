@@ -1,0 +1,12 @@
+{
+  "docs": "https://docs.railway.app",
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "startCommand": "gunicorn app:app",
+    "restartPolicyMaxRetries": 3
+  }
+}

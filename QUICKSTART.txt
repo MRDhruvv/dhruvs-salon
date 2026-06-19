@@ -1,0 +1,70 @@
+# 🚀 Quick Start - Backend Setup
+
+## 30 Second Setup
+
+1. **Open Terminal** in `/Users/tejishtha/Desktop/html` folder
+
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run the server:**
+   ```bash
+   python app.py
+   ```
+
+4. **Access Admin Dashboard:**
+   - Open browser → http://localhost:5000/admin
+
+## ✅ That's it!
+
+Your backend is now running. Appointments submitted from your website will:
+- ✓ Be saved to SQLite database
+- ✓ Show up in Admin Dashboard instantly
+- ✓ Send confirmation emails to customers (if Gmail configured)
+- ✓ Send notification emails to you
+
+## 📧 Setup Email (Optional)
+
+To enable automatic email notifications:
+
+1. Edit `app.py` file
+2. Replace these lines (around line 15-16):
+   ```python
+   SENDER_EMAIL = 'your-email@gmail.com'
+   SENDER_PASSWORD = 'your-app-password'
+   ```
+3. Use your Gmail and [Gmail App Password](https://myaccount.google.com/apppasswords)
+4. Save and restart the server
+
+## 📊 What You Can Do
+
+**In Admin Dashboard (http://localhost:5000/admin):**
+- ✓ See all appointments
+- ✓ View customer details
+- ✓ Update appointment status
+- ✓ Track revenue
+- ✓ Auto-refreshes every 30 seconds
+
+**Appointment Form (on your website):**
+- ✓ Customers fill in details
+- ✓ Confirm appointment
+- ✓ Get instant confirmation
+- ✓ Data saved to database
+
+## ⚠️ Stop the Server
+Press `Ctrl+C` in terminal
+
+## 🆘 Need Help?
+
+**Error: Port 5000 already in use**
+- Edit app.py, change `port=5000` to `port=5001`
+
+**Error: Module not found**
+- Run: `pip install -r requirements.txt`
+
+**Email not working**
+- Check SENDER_EMAIL and SENDER_PASSWORD in app.py
+- Make sure Gmail 2FA is enabled
+- Use [App Password](https://myaccount.google.com/apppasswords) not your main password
