@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', ()=>{
+  // API Configuration
+  const API_BASE_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5001'
+    : 'https://dhruvs-salon-backend.railway.app'; // Replace with your Railway URL
+  
   const serviceCheckboxes = Array.from(document.querySelectorAll('.service-checkbox'));
   const estimateEl = document.getElementById('estimate');
   const form = document.getElementById('appointment-form');
@@ -80,23 +85,51 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const total = updateEstimate();
     const appointment = {name,email,phone,date,time,services:selected,total,createdAt: new Date().toISOString()};
 
-    // Save in localStorage (simple mock persistence)
-    const list = JSON.parse(localStorage.getItem('appointments')||'[]');
-    list.push(appointment);
-    localStorage.setItem('appointments', JSON.stringify(list));
+    // Send to backend API
+    fetch(`${API_BASE_URL}/api/appointments`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(appointment)
+    })
+    .then(r => r.json())
+    .then(data => {
+      // Save in localStorage as backup
+      const list = JSON.parse(localStorage.getItem('appointments')||'[]');
+      list.push(appointment);
+      localStorage.setItem('appointments', JSON.stringify(list));
 
-    // Build modal summary
-    const servicesHtml = selected.map(s=>`<li>${s.label} — ₹${Number(s.price).toFixed(2)}</li>`).join('');
-    const html = `
-      <p>Thanks, <strong>${name}</strong> — your appointment is scheduled.</p>
-      <ul>${servicesHtml}</ul>
-      <p><strong>Date:</strong> ${date} <strong>Time:</strong> ${time}</p>
-      <p><strong>Estimated Total:</strong> ${formatCurrency(total)}</p>
-      <p class="small">We've saved your appointment locally. You'll receive a confirmation email shortly.</p>
-    `;
-    showModal(html);
-    form.reset();
-    updateEstimate();
+      // Build and show success modal
+      const servicesHtml = selected.map(s=>`<li>${s.label} — ₹${Number(s.price).toFixed(2)}</li>`).join('');
+      const html = `
+        <p>Thanks, <strong>${name}</strong> — your appointment is confirmed!</p>
+        <ul>${servicesHtml}</ul>
+        <p><strong>Date:</strong> ${date} <strong>Time:</strong> ${time}</p>
+        <p><strong>Estimated Total:</strong> ${formatCurrency(total)}</p>
+        <p class="small">Check your email for a confirmation. We look forward to seeing you!</p>
+      `;
+      showModal(html);
+      form.reset();
+      updateEstimate();
+    })
+    .catch(err => {
+      console.error('API error:', err);
+      // Fallback: save locally and notify
+      const list = JSON.parse(localStorage.getItem('appointments')||'[]');
+      list.push(appointment);
+      localStorage.setItem('appointments', JSON.stringify(list));
+
+      const servicesHtml = selected.map(s=>`<li>${s.label} — ₹${Number(s.price).toFixed(2)}</li>`).join('');
+      const html = `
+        <p>Thanks, <strong>${name}</strong> — your appointment has been saved.</p>
+        <ul>${servicesHtml}</ul>
+        <p><strong>Date:</strong> ${date} <strong>Time:</strong> ${time}</p>
+        <p><strong>Estimated Total:</strong> ${formatCurrency(total)}</p>
+        <p class="small">Your appointment is saved locally. Please contact us to confirm.</p>
+      `;
+      showModal(html);
+      form.reset();
+      updateEstimate();
+    });
   });
 
   // init
