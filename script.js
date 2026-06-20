@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   // API Configuration
   const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:5001'
-    : 'https://dhruvs-salon-backend.railway.app'; // Replace with your Railway URL
+    : 'https://dhruvs-salon.onrender.com'; // Render backend URL
   
   const serviceCheckboxes = Array.from(document.querySelectorAll('.service-checkbox'));
   const estimateEl = document.getElementById('estimate');
