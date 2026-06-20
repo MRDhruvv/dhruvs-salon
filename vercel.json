@@ -16,6 +16,10 @@
   ],
   "routes": [
     {
+      "src": "/",
+      "dest": "/main.html"
+    },
+    {
       "src": "/admin-dashboard.html",
       "dest": "/admin-dashboard.html"
     },
