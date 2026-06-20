@@ -7,6 +7,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
+import json
 
 # Load environment variables
 load_dotenv()
@@ -170,13 +171,20 @@ def create_appointment():
     try:
         data = request.json
         
+        # Convert services list to JSON string
+        services = data.get('services', [])
+        if isinstance(services, list):
+            services_str = json.dumps(services)
+        else:
+            services_str = str(services)
+        
         appointment = Appointment(
             name=data.get('name'),
             email=data.get('email'),
             phone=data.get('phone'),
             date=data.get('date'),
             time=data.get('time'),
-            services=data.get('services'),
+            services=services_str,
             total=data.get('total')
         )
         
