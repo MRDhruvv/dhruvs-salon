@@ -1,3 +1,13 @@
 node_modules
 .git
 .env
+.gitignore
+.venv
+app.py
+Dockerfile
+requirements.txt
+BACKEND_INFO.md
+BACKEND_SETUP.md
+DEPLOYMENT_GUIDE.md
+*.jpe
+*.md
