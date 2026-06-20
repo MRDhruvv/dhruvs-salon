@@ -1,0 +1,9 @@
+{
+  "name": "dhruvs-salon",
+  "version": "1.0.0",
+  "description": "Dhruv's Unisex Salon - Appointment Booking System",
+  "scripts": {
+    "build": "echo 'Static site - no build needed'"
+  },
+  "private": true
+}
